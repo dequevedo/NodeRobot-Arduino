@@ -1,11 +1,6 @@
 #include <ESP8266WiFi.h>
-//#include <Servo.h>
-//#include <Ultrasonic.h>
-
-/*#define pino_trigger 4
-  #define pino_echo 5*/
-
-#define pino_led 15
+#include <WiFiClient.h>
+#include <ESP8266WebServer.h>
 
 #define leftSpeed D5
 #define left1 D4
@@ -15,29 +10,14 @@
 #define right1 D0
 #define right2 D6
 
-//Ultrasonic ultrasonic(pino_trigger, pino_echo);
-
-//Servo myservo;
-
-int actualPos = 95;
-int speed = 1;
-int manualSpeed = 5;
-int minPos = 50;
-int maxPos = 140;
-float cmMsec;
-
 const char *ssid = "Desktop_F0712324";
 const char *password = "16217053";
 int port = 8888;
 WiFiServer server(port);
 
-int count = 0;
-
 void setup()
 {
-  Serial.begin(9600);
-  /*myservo.attach(15);
-    myservo.write(actualPos);*/
+  Serial.begin(115200);
 
   pinMode(leftSpeed, OUTPUT);
   pinMode(left1, OUTPUT);
@@ -75,8 +55,6 @@ void setup()
   Serial.println(port);
 }
 
-int num = 0;
-
 void loop()
 {
   WiFiClient client = server.available();
@@ -102,21 +80,6 @@ void loop()
 
           RotateMotors(leSpd, x1, x2, y1, y2, riSpd);
         }
-
-        /*if (leitura == 1) {
-          int leitura2 = client.read();
-          RotateMotors(leitura2);
-          } else if (leitura == 2) {
-          int leitura2 = client.read();
-
-          if(leitura2 == 0){
-            digitalWrite(pino_led, LOW);
-            Serial.println("Desligou Farol");
-          }else{
-            digitalWrite(pino_led, HIGH);
-            Serial.println("Ligou Farol");
-          }
-          }*/
         client.flush();
       }
     }
